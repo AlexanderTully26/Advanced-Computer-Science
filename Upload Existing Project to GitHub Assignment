@@ -1,0 +1,422 @@
+# import time
+import random
+
+# import
+# window dimentions
+WIDTH = 500
+HEIGHT = 700
+
+# Actors And Veriables
+p = 0
+h = 0
+An1 = 0
+gamend = 1
+gamendBird = 1
+wait = 6
+speed = 6
+speed1 = 6
+sped = 6
+timers = 0
+i = 0
+y = 250
+u = 0
+x = 600
+xx = 130
+yy = 550
+birdxx = 370
+birdyy = 550
+x2 = 250
+y2 = 350
+x3 = 250
+
+g = 1
+g1 = 1
+time1 = 0
+time2 = 1
+time4 = 0
+time3 = 1
+time5 = 1
+time6 = 0
+
+points = 0
+Bird2_points = 0
+y3 = 350
+speed = 10  # speed
+eagle_list = ["eagle1.png", "eagle2.png"]
+'''
+cloud_list = [
+    "cloud1.png",
+    "cloud2.png",
+    "cloud3.png",
+    "cloud2.png",
+    "cloud3.png",
+    "cloud1.png",
+    "cloud2.png",
+]
+'''
+bird_list = ["redbird1.png", "redbird3.png"]
+bird2 = Actor("redbird1.png")
+bird2.y = birdyy
+bird2.x = birdxx
+eagle = Actor("eagle1.png")
+#cloud = Actor("cloud1.png")
+eagle.x = xx
+highscore = 0
+eagle.y = yy
+eggr = 0
+#cloud.x = x
+#cloud.y = y
+anvil = Actor("anvil.png")
+anvil.x = x2
+anvil.x = y2
+anvil1 = Actor("anvil.png")
+anvil1.x = x3
+anvil1.x = y3
+anvil2 = Actor("anvil.png")
+anvil2.x = x3
+anvil2.x = y3
+
+plane_list = ["plane.png", "plane1.png"]
+plane = Actor("plane.png")
+plane.x = x3
+plane.x = y3
+speed3 = 6
+PL1 = 0
+planeflip = 0
+
+speed2 = 6
+An2 = 0
+
+egg_list = ["egg.png", "gegg.png"]
+egg = Actor("egg.png")
+egg.x = x2
+egg.x = y2
+
+
+# infinite draw loop
+def draw():
+    global points, Bird2_points, gamend, time1, tyt, highscore, time3, time4, time5, time6, timers
+
+
+    screen.fill((143, 244, 255))
+
+    timers == timers + 1
+
+    if points + Bird2_points > 9:
+         screen.fill((100, 44, 255))
+    if points + Bird2_points > 19:
+         screen.fill((100, 44, 55))
+    if points + Bird2_points > 29:
+         screen.fill((0, 44, 125))
+    # screen.draw.filled_rect(Rect((0,320),(800,180)),(139, 214, 92))
+    # screen.draw.filled_circle((50,40),50,("Yellow"))
+    eagle.draw()
+    bird2.draw()
+#    cloud.draw()
+    anvil.draw()
+    egg.draw()
+    screen.draw.text("Player 1 Score: " + str(points), (15, 15), color="Black", fontsize=30)
+    screen.draw.text("Player 2 Score: " + str(Bird2_points), (15, 35), color="Black", fontsize=30)
+    screen.draw.text("High Score: " + str(highscore), (15, 55), color="Black", fontsize=30)
+
+
+
+    screen.draw.text(str(timers), (470, 15), color="Black", fontsize=30)
+
+    if points + Bird2_points> 9:
+        anvil1.draw()
+
+        if time2 == 1:
+            time1 = time1 + 1
+
+        if time1 < 100:
+            screen.draw.text("Level 2", (200, 350), color="Black", fontsize=50)
+            # if time1 == 101:
+            #   time2 = time2 - 1
+
+    if points + Bird2_points > 19:
+        anvil2.draw()
+
+        if time3 == 1:
+            time4 = time4 + 1
+
+        if time4 < 100:
+            screen.draw.text("Level 3", (200, 350), color="Black", fontsize=50)
+
+    if points + Bird2_points> 29:
+        plane.draw()
+
+        if time5 == 1:
+            time6 = time6 + 1
+
+        if time6 < 100:
+            screen.draw.text("Level 4", (200, 350), color="Black", fontsize=50)
+
+    if gamend == 3:
+        screen.fill(("red"))
+        screen.draw.text(
+            "Player 1 Died, with " + str(points) + " points",
+            (50, 300),
+            color="Black",
+            fontsize=50,
+        )
+        screen.draw.text(
+            "Your High Score is " + str(highscore),
+            (105, 340),
+            color="Black",
+            fontsize=40,
+        )
+        screen.draw.text(
+            "Press R to Reset from Begining",
+            (90, 370),
+            color="Black",
+            fontsize=30,
+        )
+        sped = 100
+
+
+# update loop
+def update():
+
+    global speed, sped, speed1, speed2, speed3
+    global x, xx, x2, x3
+    global y, yy, y2, x3
+    global i, points, highscore
+    global p, h, gamend, An1, An2, PL1, g, g1, planeflip, eggr
+    global wait, gamendBird
+
+
+
+    if points > 9:
+        An1 = 1
+        if g == 1:
+            anvil.y = -20
+            anvil1.y = -20
+            g = 0
+    if points > 19:
+        An2 = 1
+        if g1 == 1:
+            anvil.y = -20
+            anvil1.y = -20
+            anvil2.y = -20
+            g1 = 0
+    if points > 29:
+        PL1 = 1
+
+    wait = wait - 2
+    if wait == 0:
+        p = p + 1
+        wait = 6
+
+    eagle.image = eagle_list[p % 2]
+
+    if keyboard.right:
+        eagle.x = eagle.x + 5
+    if keyboard.left:
+        eagle.x = eagle.x - 5
+    if keyboard.up:
+        eagle.y = eagle.y - 5
+    if keyboard.down:
+        eagle.y = eagle.y + 5
+    if keyboard.d:
+        bird2.x = bird2.x + 5
+    if keyboard.a:
+        bird2.x = bird2.x - 5
+    if keyboard.w:
+        bird2.y = bird2.y - 5
+    if keyboard.s:
+        bird2.y = bird2.y + 5
+
+    if keyboard.r:
+        speed = 2
+        sped = 2
+        speed1 = 2
+        gamend = 1
+        points = 0
+        egg.y = -20
+        anvil.y = -20
+        An1 = 0
+        An2 = 0
+        PL1 = 0
+        eagle.y = 550
+        eagle.x = 250
+        time3 = 1
+        time1 = 0
+        time6 = 0
+        time4 = 0
+        time2 = 1
+        time5 = 1
+
+    # to test if levels work
+   # if keyboard.s:
+    #    points = points + 1
+
+    if eagle.y > 700:
+        eagle.y = eagle.y - 5
+    if eagle.y < 0:
+        eagle.y = eagle.y + 5
+    if eagle.x > 500:
+        eagle.x = eagle.x - 5
+    if eagle.x < 0:
+        eagle.x = eagle.x + 5
+
+    if bird2.y > 700:
+        bird2.y = bird2.y - 5
+    if bird2.y < 0:
+        bird2.y = bird2.y + 5
+    if bird2.x > 500:
+        bird2.x = bird2.x - 5
+    if bird2.x < 0:
+        bird2.x = bird2.x + 5
+
+    speed = speed - 1
+    sped = sped - 1
+
+    if speed == 0:
+        anvil.y = anvil.y + 12
+        speed = 2
+
+    if anvil.y > 720:
+        anvy = random.randint(1, 500)
+        anvil.y = -20
+        anvil.x = anvy
+
+    if sped == 0:
+        egg.y = egg.y + 12
+        sped = 2
+
+
+
+    if egg.y > 720:
+        ege = random.randint(1, 500)
+        egg.y = -30
+        egg.x = ege
+        if eggr == 7:
+            eggr = 0
+            egg.image = egg_list[0]
+
+    points == points + 1
+    if eagle.colliderect(egg):
+        if eggr == 7:
+            points += 3
+            egg.image = egg_list[0]
+        points += 1
+        ege = random.randint(1, 500)
+        egg.y = -20
+        egg.x = ege
+        eggr = random.randint(0, 12)
+        if eggr == 7:
+            egg.image = egg_list[1]
+
+        if eagle.colliderect(anvil):
+            gamend = 3
+        # level 2
+    if bird2.colliderect(egg):
+        if eggr == 7:
+            points += 3
+            egg.image = egg_list[0]
+        points += 1
+        ege = random.randint(1, 500)
+        egg.y = -20
+        egg.x = ege
+        eggr = random.randint(0, 12)
+        if eggr == 7:
+            egg.image = egg_list[1]
+        if bird2.colliderect(anvil):
+            gamendBird = 3
+        # level 2
+    if An1 == 1:
+        speed1 = speed1 - 1
+        if speed1 == 0:
+            anvil1.y = anvil1.y + 12
+            speed1 = 2
+
+        if anvil1.y > 720:
+            anvy1 = random.randint(1, 500)
+            anvil1.y = -20
+            anvil1.x = anvy1
+        if eagle.colliderect(anvil1):
+            gamend = 3
+        if bird2.colliderect(anvil1):
+            gamendBird = 3
+    # level 3
+    if An2 == 1:
+        speed2 = speed2 - 1
+
+        if speed2 == 0:
+            anvil2.y = anvil2.y + 12
+            speed2 = 2
+
+        if anvil2.y > 720:
+            anvy2 = random.randint(1, 500)
+            anvil2.y = -20
+            anvil2.x = anvy2
+
+        if eagle.colliderect(anvil2):
+            gamend = 3
+
+        if bird2.colliderect(anvil2):
+            gamendBird = 3
+
+    if PL1 == 1:
+        speed3 = speed3 - 1
+
+        if planeflip == 0:
+            if speed3 == 0:
+                plane.x = plane.x + 12
+                speed3 = 2
+
+            if plane.x > 520:
+                pla = random.randint(20, 680)
+                plane.x = 540
+                plane.y = pla
+                planeflip = 1
+                plane.image = plane_list[0]
+
+        if planeflip == 1:
+
+            if speed3 == 0:
+                plane.x = plane.x - 12
+                speed3 = 2
+
+            if plane.x < -20:
+                pla = random.randint(20, 680)
+                plane.x = -40
+                plane.y = pla
+                planeflip = 0
+                plane.image = plane_list[1]
+
+        if eagle.colliderect(plane):
+            gamend = 3
+        if bird2.colliderect(plane):
+            gamendBird = 3
+
+    if points > highscore:
+        highscore = points
+
+    """
+    speed = speed - 1
+
+    if speed == 0:
+        x = cloud.x + 5
+        speed = 3
+
+
+    cloud.x = cloud.x + speed
+
+    #fox.collidrect(whaterver you want )
+
+    if cloud.x > 751:
+        speed  = -10
+        ab = random.randint(1,100)
+        cloud.y = cloud.y + ab
+    if cloud.x == -25:
+        cloud.x = 900
+        h = h + 1
+        cloud.image = cloud_list[h%1]
+
+        if h > 5:
+            h = 0
+            cloud.y = cloud.y - ab
+"""
+# Write your code here :-)
