@@ -1,0 +1,121 @@
+import random
+finalwords = []
+undolist = []
+def passphrase():
+  global finalwords
+  global undolist
+  with open("Passphrase.txt", "r") as file:
+    txt = file.read()
+    passphrase = txt.split()
+  number = int(input("How many words would you like to generate?"))
+  i = 0
+  while i < number:
+    phrase = random.randint(1,6)
+    if phrase in passphrase:
+      cool = passphrase.index(phrase)
+      i += 1
+      finalwords.append(passphrase[cool + 1])
+  print(finalwords)
+  changingtime = True
+  while changingtime:
+    editordont = input(
+        "Do you want to change anything about your passphrase? (Y/N)")
+    if editordont == "N":
+      print(finalwords)
+      print("Enjoy your passphrase!")
+      finalwords.clear()
+      return
+    elif editordont == "Y":
+      keepordont = input("Do you want to remove an element (Y/N)?")
+        if keepordont == "Y":
+        remove = input(
+            "Type the word you want to remove. Keep in mind that if the word appears twice, the first appearance will be removed."
+        )
+        if remove in finalwords:
+          undolist.append(list(finalwords))
+           finalwords.remove(remove)
+          print(finalwords)
+        else:
+          print(
+              "You entered a word that is not in your passphrase, try again.")
+      elif keepordont == "N":
+        addordont = input("Do you want to add an element (Y/N)?")
+        if addordont == "Y":
+          phrase = random.randint(1,6)
+          if phrase in passphrase:
+            undolist.append(list(finalwords))
+            cool = passphrase.index(phrase)
+            finalwords.append(passphrase[cool + 1])
+            print(finalwords)
+          else:
+            print(
+                "You entered a number that is invalid. Make sure all the numbers are between 1 and 6!"
+            )
+        elif addordont == "N":
+          editexisting = input(
+              "Do you want to edit an existing list item? (Y/N)")
+          if editexisting == "Y":
+            targetword = input(
+                "Type the word you want to modify. Keep in mind that if the word appears twice, the first appearance will be the one modified"
+            )
+            if targetword in finalwords:
+              whattochange = input(
+                  "Type 'C' if you want to capitalize the first letter, 'U' to make the entire word uppercase, or 'D' to make the entire word lowercase"
+              )
+              if whattochange == "C":
+                undolist.append(list(finalwords))
+                finalwords.remove(targetword)
+                finalwords.append(targetword.capitalize())
+                # https://www.scaler.com/topics/capitalize-in-python/
+                print(finalwords)
+              elif whattochange == "U":
+                undolist.append(list(finalwords))
+                finalwords.remove(targetword)
+                finalwords.append(targetword.upper())
+                #https://www.programiz.com/python-programming/methods/string/upper
+                print(finalwords)
+              elif whattochange == "D":
+                undolist.append(list(finalwords))
+                finalwords.remove(targetword)
+                finalwords.append(targetword.lower())
+                #https://www.programiz.com/python-programming/methods/string/lower
+                print(finalwords)
+              else:
+                print(
+                    "Uh oh! Your answer was invalid, try again and remember to capitalize your letter."
+                )
+            else:
+              print(
+                  "You entered a word that is not in your passphrase, try again."
+              )
+
+          elif editexisting == "N":
+            #resets to main question.
+            coolest = 1
+          else:
+            print(
+                "Uh oh! You entered an invalid option. Try again, and your Y and N are capitalized!"
+            )
+        else:
+          print(
+              "Uh oh! You entered an invalid option. Try again, and your Y and N are capitalized!"
+          )
+      else:
+        print(
+            "Uh oh! You entered an invalid option. Try again, and your Y and N are capitalized!"
+        )
+    else:
+      print(
+          "Uh oh! You entered an invalid option. Try again, and your Y and N are capitalized!"
+      )
+    undo = input("Would you like to undo the last change you made (Y/N?")
+    if undo == "Y":
+      finalwords = undolist.pop()
+         print(
+          "You most recent change has been undone, your passphrase has been restored to ",
+          finalwords)
+
+
+coolest = 1
+if coolest == 1:
+  passphrase()
